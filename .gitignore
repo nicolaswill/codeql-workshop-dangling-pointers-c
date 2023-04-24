@@ -1,0 +1,10 @@
+.cache
+*.testproj
+*.lock.yaml
+*.lock.yml
+*.actual
+cpp-dangling-pointer-database
+exercises-tests/*/test.c
+solutions-tests/*/test.c
+settings.json
+.DS_Store

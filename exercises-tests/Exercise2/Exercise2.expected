@@ -1,0 +1,7 @@
+| test.c:4:3:4:11 | declaration | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:6:5:6:29 | declaration | test.c:6:11:6:11 | s | Invalid because variable s is uninitialized. |
+| test.c:6:15:6:28 | hello world! | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:9:7:10 | & ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:10:3:10:27 | declaration | test.c:10:9:10:9 | s | Invalid because variable s is uninitialized. |
+| test.c:10:13:10:26 | hello world! | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:7:11:8 | & ... | test.c:4:10:4:10 | p | Var(s) |

@@ -1,0 +1,53 @@
+| test.c:3:6:3:28 | simple_dangling_pointer | test.c:4:10:4:10 | p | Var(s) |
+| test.c:3:6:3:28 | simple_dangling_pointer | test.c:10:9:10:9 | s | Unknown |
+| test.c:4:3:4:11 | declaration | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:5:3:8:3 | { ... } | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:6:5:6:29 | declaration | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:6:5:6:29 | declaration | test.c:6:11:6:11 | s | Invalid because variable s is uninitialized. |
+| test.c:6:14:6:28 | initializer for s | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:6:14:6:28 | initializer for s | test.c:6:11:6:11 | s | Invalid because variable s is uninitialized. |
+| test.c:6:15:6:28 | hello world! | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:6:15:6:28 | hello world! | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:5:7:5 | p | test.c:4:10:4:10 | p | Var(s) |
+| test.c:7:5:7:5 | p | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:5:7:10 | ... = ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:7:5:7:10 | ... = ... | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:5:7:11 | ExprStmt | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:7:5:7:11 | ExprStmt | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:9:7:10 | & ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:7:9:7:10 | & ... | test.c:6:11:6:11 | s | Unknown |
+| test.c:7:10:7:10 | s | test.c:4:10:4:10 | p | Invalid because variable p is uninitialized. |
+| test.c:7:10:7:10 | s | test.c:6:11:6:11 | s | Unknown |
+| test.c:9:3:9:8 | call to printf | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:9:3:9:19 | ExprStmt | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:9:10:9:13 | %s | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:9:16:9:17 | * ... | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:9:17:9:17 | p | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:10:3:10:27 | declaration | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:10:3:10:27 | declaration | test.c:10:9:10:9 | s | Invalid because variable s is uninitialized. |
+| test.c:10:12:10:26 | initializer for s | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:10:12:10:26 | initializer for s | test.c:10:9:10:9 | s | Invalid because variable s is uninitialized. |
+| test.c:10:13:10:26 | hello world! | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:10:13:10:26 | hello world! | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:3:11:3 | p | test.c:4:10:4:10 | p | Var(s) |
+| test.c:11:3:11:3 | p | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:3:11:8 | ... = ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:11:3:11:8 | ... = ... | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:3:11:9 | ExprStmt | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:11:3:11:9 | ExprStmt | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:7:11:8 | & ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:11:7:11:8 | & ... | test.c:10:9:10:9 | s | Unknown |
+| test.c:11:8:11:8 | s | test.c:4:10:4:10 | p | Invalid because variable s went out of scope. |
+| test.c:11:8:11:8 | s | test.c:10:9:10:9 | s | Unknown |
+| test.c:12:3:12:8 | call to printf | test.c:4:10:4:10 | p | Var(s) |
+| test.c:12:3:12:8 | call to printf | test.c:10:9:10:9 | s | Unknown |
+| test.c:12:3:12:19 | ExprStmt | test.c:4:10:4:10 | p | Var(s) |
+| test.c:12:3:12:19 | ExprStmt | test.c:10:9:10:9 | s | Unknown |
+| test.c:12:10:12:13 | %s | test.c:4:10:4:10 | p | Var(s) |
+| test.c:12:10:12:13 | %s | test.c:10:9:10:9 | s | Unknown |
+| test.c:12:16:12:17 | * ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:12:16:12:17 | * ... | test.c:10:9:10:9 | s | Unknown |
+| test.c:12:17:12:17 | p | test.c:4:10:4:10 | p | Var(s) |
+| test.c:12:17:12:17 | p | test.c:10:9:10:9 | s | Unknown |
+| test.c:13:3:13:9 | return ... | test.c:4:10:4:10 | p | Var(s) |
+| test.c:13:3:13:9 | return ... | test.c:10:9:10:9 | s | Unknown |
