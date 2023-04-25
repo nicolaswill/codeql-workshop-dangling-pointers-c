@@ -3,6 +3,19 @@
 ## Acknowledgements
 This workshop is based on [this write-up](https://github.com/advanced-security/codeql-workshops-staging/blob/master/cpp/type-conversions-dangling-pointer/README.md) and the [LifetimeProfile.qll library](https://github.com/github/codeql-coding-standards/blob/main/cpp/common/src/codingstandards/cpp/lifetimes/lifetimeprofile/LifetimeProfile.qll) from the [CodeQL Coding Standards repository](https://github.com/github/codeql-coding-standards).
 
+## Setup Instructions
+- Install [Visual Studio Code](https://code.visualstudio.com/).
+- Install the [CodeQL extension for Visual Studio Code](https://codeql.github.com/docs/codeql-for-visual-studio-code/setting-up-codeql-in-visual-studio-code/).
+- Install the latest version of the [CodeQL CLI](https://github.com/github/codeql-cli-binaries/releases).
+- Clone this repository:
+  ```bash
+  git clone https://github.com/kraiouchkine/codeql-workshop-dangling-pointers-c
+  ```
+- Install the CodeQL pack dependencies using the command `CodeQL: Install Pack Dependencies` and select `exercises`, `solutions`, `exercises-tests`, and `solutions-tests` from the list of packs.
+- If you have CodeQL on your PATH, build the database using `build-database.sh` and load the database with the VS Code CodeQL extension. 
+  - Alternatively, you can download [this pre-built database](https://drive.google.com/file/d/1CvqvJwnIp332HZ5SWCS2pHVGyy5b1g8_/view?usp=share_link).
+- :exclamation:Important:exclamation:: Run `initialize-qltests.sh` to initialize the tests. Otherwise, you will not be able to run the QLTests (in `exercises-tests` and `solutions-tests`).
+
 ## Introduction
 A dangling pointer is a memory safety violation where the pointer does not point to a valid object.
 These dangling pointers are the result of not modifying the value of the pointer after the pointed to object is destructed or not properly initializing the pointer.
