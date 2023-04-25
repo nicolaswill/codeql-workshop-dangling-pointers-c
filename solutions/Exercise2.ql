@@ -55,19 +55,6 @@ class PSetEntry extends TPSetEntry {
 }
 
 /**
- * Holds if `lv` is reassigned at `cfn`.
- */
-private predicate isPSetReassigned(ControlFlowNode cfn, LocalVariable lv) {
-  exists(DeclStmt ds |
-    cfn = ds and
-    ds.getADeclaration() = lv and
-    lv.getType() instanceof PointerType
-  )
-  or
-  cfn = lv.getAnAssignedValue()
-}
-
-/**
  * Returns a `PSetEntry` for `lv` at `cfn`.
  */
 private PSetEntry getAnAssignedPSetEntry(ControlFlowNode cfn, LocalVariable lv) {
@@ -102,7 +89,6 @@ private PSetEntry getAnAssignedPSetEntry(ControlFlowNode cfn, LocalVariable lv) 
 }
 
 predicate pointsToMap(ControlFlowNode cfn, LocalVariable lv, PSetEntry pse) {
-  isPSetReassigned(cfn, lv) and
   getAnAssignedPSetEntry(cfn, lv) = pse
 }
 

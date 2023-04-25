@@ -96,23 +96,26 @@ In this predicate we must consider three cases:
 2. The local local variable `lv` is not assigned so we have to propagate the *points-to* set entry from a previous location.
 3. The local variable `lv` is not assigned, but points to a variable that went out of scope at location `cfn` so we need to invalid the entry for that variable.
 
-In this exercise we are going to implement the first case by implementing the two predicates `isPSetReassigned` and `getAnAssignedPSetEntry`.
+In this exercise we are going to implement the first case by implementing the `getAnAssignedPSetEntry` predicate and a one-liner use of it in `pointsToMap`.
+
+#### Hints
+
+1. The class `DeclStmt` models a declaration statement and the predicate `getADeclaration` relates what is declared (e.g., a `Variable`)
+2. For a `Variable` we can get the `Expr` that represent the value that is assigned to the variable with the predicate `getAnAssignedValue`.
+3. The `AddressOfExpr` models an "address taken of" operation, which when assigned to a variable, can be used to determine if one variable points-to another variable. Consider using recursion to handle this case.
+
+### Exercise 3
+
+With case 1 of the `pointsToMap` being implemented we are going to implement cases 2 and 3. First, however, we need to implement the `isPSetReassigned` predicate.
 
 - The predicate `isPSetReassigned` should hold if a new *points-to* entry should be assigned at that location. This happens when:
 	- A local variable is declared and is uninitialized.
 	- A local variable is assigned a value.
 - The predicate `getAnAssignedPSEntry` should relate a program location and variable to a *points-to* entry.
 
-#### Hints
+For case 2, we now need to propagate a *points-to* entry from a previous location. 
 
-1. The class `DeclStmt` models a declaration statement and the predicate `getADeclaration` relates what is declared (e.g., a `Variable`)
-2. For a `Variable` we can get the `Expr` that represent the value that is assigned to the variable with the predicate `getAnAssignedValue`.
-3. The `AddressOfExpr` models address taken of operation that when assigned to a variable can be used to determine if one variable points-to another variable.
-
-### Exercise 3
-
-With case 1 of the `pointsToMap` being implemented we are going to implement case 2 and 3.
-For case 2 we need to propagate a *points-to* entry from a previous location and for case 3 we need to invalidate a *points-to* entry if the entry at the previous location is a `PSetVar` for which the variable goes out of scope at our current location `cfn`.
+For case 3, we need to invalidate a *points-to* entry if the entry at the previous location is a `PSetVar` for which the variable goes out of scope at our current location `cfn`.
 
 Note that we only consider case 2 and case 3 if the variable doesn't go out of scope at the current location, otherwise we stop propagation for of *points-to* entries for that variable.
 
@@ -122,9 +125,9 @@ predicate pointsToMap(ControlFlowNode cfn, LocalVariable lv, PSEntry pse) {
 	then pse = getAnAssignedPSetEntry(cfn, lv)
 	else
 		exists(ControlFlowNode pred, PSEntry prevPse |
-			pred = cfn.getAPredecessor() and
-			pointsToMap(pred, lv, prevPse) and
-			not goesOutOfScope(lv, cfn)
+            // `lv` does not go out of scope at `cfn`
+            // and pred/prevPse are bound via a predecessor
+            // entry in the `pointsToMap` relation
 		|
 			// case 2
 			or
@@ -138,3 +141,6 @@ predicate pointsToMap(ControlFlowNode cfn, LocalVariable lv, PSEntry pse) {
 With the *points-to* map implemented we can find *uses* of dangling pointers. 
 
 Implement the class `DanglingPointerAccess` that finds uses of dangling points.
+
+#### Hint
+- You will need to use `TVariableOutOfScope`, but `TVariableOutOfScope` binds an `LocalVariable` to the specific `ControlFlowNode` at which it went out of scope; the `LocalVariable` and `ControlFlowNode` that the `PointerDereferenceExpr` references may be different. Therefore, use a ["don't-care expression"](https://codeql.github.com/docs/ql-language-reference/ql-language-specification/#don-t-care-expressions).
